@@ -46,6 +46,7 @@ commonChars = A => {
   return res;
 }
 
+// Semi-final solution
 commonCharsRefactor = A => {
   const res = [];
   const o = {}
@@ -84,5 +85,34 @@ commonCharsRefactor = A => {
   }
   return res;
 }
+
+//Final solution (after get the idea from other's approach)
+commonCharsFinal = A => {
+  if (A.length < 2) return [];
+  const res = [];
+  const [first] = A.sort((a,b) => a.length - b.length);
+  for (const char of first) {
+    let isMissed = false;
+    for(let i = 1; i< A.length; i++) {
+      if(A[i].includes(char)) {
+        A[i] = A[i].replace(char,"");
+      } else {
+        isMissed = true;
+        break;
+      }
+    }
+    
+    if (!isMissed)res.push(char);
+  }
+  return res;
+}
+
+// Things learned after first solution
 // Number of submissions: 2
 // --> The most challenge is logic of code, selecting algorithm, performance and general cases
+
+// Things learned after final solution
+// Analyze problems first: What is input/output, scope of the problem
+// Think about some high level designs, try atleast 2 or 3 of them
+// Pick suitable solution and submit code
+
