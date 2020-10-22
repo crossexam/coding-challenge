@@ -52,3 +52,93 @@ public:
 
 
 // lesson learned: for longest/maximum problem, you need to think greedy first!
+
+// Solution using Trie can be find below
+
+class TrieNode
+{
+    public:
+    TrieNode *child[26];
+    bool isEnd;
+    
+    TrieNode()
+    {
+        for(int i=0;i<26;i++)
+        child[i] = NULL;
+        
+        isEnd = false;
+    }
+};
+
+void insert(TrieNode *root, string key)
+{
+    TrieNode *temp = root;
+    
+    for(int i=0;i<key.length();i++)
+    {
+        int index = int(key[i] - 'a');
+        
+        if(temp->child[index] == NULL)
+        temp->child[index] = new TrieNode();
+        
+        temp = temp->child[index];
+    }
+    
+    temp->isEnd = true;
+}
+
+void constructTrie(TrieNode *root,vector <string> arr)
+{
+    for(int i=0;i<arr.size();i++)
+    insert(root,arr[i]);
+}
+
+int countChildren(TrieNode *root,int &index)
+{
+    int count = 0;
+    for(int i=0;i<26;i++)
+    {
+        if(root->child[i] != NULL)
+        {
+            count++;
+            index = i;
+        }
+    }
+    
+    return count;
+}
+
+string walkTrie(TrieNode *root)
+{
+    TrieNode *temp = root; 
+    int index; 
+    string prefix; 
+  
+    while (countChildren(temp, index) == 1 && temp->isEnd == false) 
+    { 
+        temp = temp->child[index]; 
+        prefix.push_back('a'+index); 
+    } 
+    
+    return prefix;
+}
+
+string longestCommonPrefix(vector <string> arr)
+{
+    TrieNode *root = new TrieNode();
+    constructTrie(root,arr);
+    
+    string prefix = walkTrie(root);
+    
+    return prefix;
+}
+
+class TrieSolution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        TrieNode *root = new TrieNode();
+        constructTrie(root, strs);
+        string prefix = walkTrie(root);
+        return prefix;
+    }
+};
