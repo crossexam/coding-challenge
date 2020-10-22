@@ -31,6 +31,10 @@ public:
         int size = strs.size();
         if (!size) return "";
         if (size == 1) return strs[0];
+        sort(strs.begin(), strs.end(), []
+          (const std::string& first, const std::string& second){
+              return first.size() < second.size();
+        });
         string first = strs[0];
         int len = first.length();
         
@@ -142,3 +146,5 @@ public:
         return prefix;
     }
 };
+
+// TODO: Binary search implement
